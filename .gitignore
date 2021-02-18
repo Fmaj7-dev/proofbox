@@ -1,0 +1,5 @@
+.DS_Store
+src/__pycache__/*.pyc
+test/__pycache__/*.pyc
+.pytest_cache/v/cache/nodeids
+.pytest_cache/v/cache/stepwise
