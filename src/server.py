@@ -1,18 +1,19 @@
+# Web Server.
+# Serves the webpage, shows temp plots and temperature form.
+
 import threading
 import time
+from raspberry import Raspberry
 from flask import Flask
 app = Flask(__name__)
 
-def thread_function():
-  while True:
-    print(".")
-    time.sleep(1)
+r=[]
 
 @app.route('/')
-def hello():
-    return "Hello World!"
+def index():
+  return str(r.getTemp())
 
-if __name__ == '__main__':
-  x = threading.Thread(target=thread_function)
-  x.start()
+def run(raspberry):
+  global r 
+  r = raspberry
   app.run()

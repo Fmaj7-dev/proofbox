@@ -2,6 +2,8 @@
 # It gets sensor temperature and powers on/off the resistor
 # once the temperature is obtained, it is stored in the database
 
+import time
+
 class Raspberry():
     # dt: seconds between sensor measures
     # target_temp: the temperature we are trying to reach
@@ -9,6 +11,9 @@ class Raspberry():
         self.dt = dt
         self.target_temp = target_temp
         self.resistor_power = False
+        self.last_temp = 0
+
+        self.resistor = False
         pass
 
     # target_temp: the temperature we are trying to reach
@@ -17,11 +22,23 @@ class Raspberry():
     
     # control loop
     def loop(self):
-        pass
+        while True:
+            if self.resistor:
+                self.last_temp += 1
+            else:
+                self.last_temp *=0.99
+
+            if self.last_temp < self.target_temp:
+                self.turnResistorOn()
+            else:
+                self.turnResistorOff()
+
+            print("current temperature: "+str(self.last_temp))
+            time.sleep(self.dt)
     
     # access sensor to get the temperature
     def getTemp(self):
-        return 42
+        return self.last_temp
 
     # current time
     def getTime(self):
@@ -29,7 +46,7 @@ class Raspberry():
 
     # resistor
     def turnResistorOn(self):
-        pass
+        self.resistor = True
 
     def turnResistorOff(self):
-        pass
+        self.resistor = False
