@@ -3,6 +3,7 @@
 # once the temperature is obtained, it is stored in the database
 
 import time
+"""import Adafruit_DHT as dht"""
 from database import Database
 import numpy as np
 
@@ -43,7 +44,7 @@ class Raspberry():
             # production
             #######################
             ## naive approach
-            # self.last_temp = self.getSensorTemp()
+            # self.getSensorTemp()
             # if self.last_temp < self.target_temp:
             #   self.turnResistorOn()
             # else
@@ -55,7 +56,14 @@ class Raspberry():
     
     # access sensor to get the temperature
     def getSensorTemp(self):
-        pass
+        pass 
+    """
+        #Set DATA pin
+        DHT = 12
+        #Read Temp and Hum from DHT22
+        h,t = dht.read_retry(dht.DHT22, DHT)
+        self.last_temp = t
+        self.last_himidity = h"""
 
     # current time
     def getTime(self):

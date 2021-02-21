@@ -14,7 +14,7 @@ def startServer():
     server.run(r, d)
 
 if __name__ == '__main__':
-    import webbrowser
+    #import webbrowser
     
     rasp_thread = threading.Thread(target=startRaspberry)
     rasp_thread.start()
@@ -22,4 +22,4 @@ if __name__ == '__main__':
     server_thread = threading.Thread(target=startServer)
     server_thread.start()
   
-    webbrowser.open("http://127.0.0.1:5000/")
+    #webbrowser.open("http://127.0.0.1:5000/")

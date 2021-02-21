@@ -11,8 +11,8 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg
 from matplotlib.backends.backend_svg import FigureCanvasSVG
 from matplotlib.figure import Figure
 
-import seaborn as sns
-sns.set()
+#import seaborn as sns
+#sns.set()
 
 app = Flask(__name__)
 
