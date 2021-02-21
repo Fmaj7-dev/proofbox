@@ -1,15 +1,23 @@
-<h1>Proofing Box</h1>
-Current Temperature: {{current_temperature}}<br>
-Target Temperature: {{target_temperature}}<br>
-Resistor State: {{resistor_state}}<br>
-Average Temperature 1 min {{avg_1}}<br>
-Average Temperature 10 min {{avg_10}}<br>
-Average Temperature 30 min {{avg_30}}<br>
-<form method=get action="/settarget">
-  <input name="target_temperature" type=number value="{{target_temperature}}" />
-  <input type=submit value="Set Target Temperature">
-</form>
+<html>
+  <head></head>
+  <body>
+    <h1>Proofing Box Control</h1>
 
-  <img src="/plot.png"
-    alt="random points as png"
-    height="400" >
+    <table style="width:30%">
+      <tr>  <td>Current Temperature</td>    <td>{{current_temperature}}</td>  </tr>
+      <tr>  <td>Target Temperature</td>     <td>{{target_temperature}}</td>   </tr>
+      <tr>  <td>Resistor State</td>         <td>{{resistor_state}}</td>       </tr>
+      <tr>  <td>Average Temperature 1 min</td>         <td>{{avg_1}}</td>       </tr>
+      <tr>  <td>Average Temperature 10 min</td>         <td>{{avg_10}}</td>       </tr>
+      <tr>  <td>Average Temperature 30 min</td>         <td>{{avg_30}}</td>       </tr>
+    </table>
+  
+    <form method=get action="/settarget">
+      <input name="target_temperature" type=number value="{{target_temperature}}" />
+      <input type=submit value="Set Target Temperature">
+    </form>
+
+    <img src="/plot.png" alt="random points as png" height="400">
+
+  </body>
+</html>

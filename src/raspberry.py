@@ -3,7 +3,14 @@
 # once the temperature is obtained, it is stored in the database
 
 import time
-"""import Adafruit_DHT as dht"""
+
+# it can be executed on raspberry or pc (only for testing)
+using_raspberry = False
+
+if using_raspberry:
+    import Adafruit_DHT as dht
+    import RPi.GPIO as GPIO
+
 from database import Database
 import numpy as np
 
@@ -14,11 +21,15 @@ class Raspberry():
         self.database = database
         self.dt = dt
         self.target_temp = target_temp
-        self.resistor_power = False
         self.last_temp = 1
-
+        self.last_humidity = 1
         self.resistor = False
-        pass
+
+        if using_raspberry:
+            GPIO.setmode(GPIO.BCM)
+            RELAIS_1_GPIO = 17
+            GPIO.setup(RELAIS_1_GPIO, GPIO.OUT)
+        
 
     # target_temp: the temperature we are trying to reach
     def setTartgetTemp(self, target_temp):
@@ -27,43 +38,39 @@ class Raspberry():
     # control loop
     def loop(self):
         while True:
-            ######################
-            # test
-            ######################
-            if self.resistor:
-                self.last_temp *= 1.1
+            if using_raspberry:
+                self.getSensorTemp()
+                if self.last_temp < self.target_temp:
+                    self.turnResistorOn()
+                else:
+                    self.turnResistorOff()
             else:
-                self.last_temp *=0.999
+                if self.resistor:
+                    self.last_temp *= 1.1
+                else:
+                    self.last_temp *=0.999
 
-            if self.last_temp < self.target_temp:
-                self.turnResistorOn()
-            else:
-                self.turnResistorOff()
+                if self.last_temp < self.target_temp:
+                    self.turnResistorOn()
+                else:
+                    self.turnResistorOff()
 
-            #######################
-            # production
-            #######################
-            ## naive approach
-            # self.getSensorTemp()
-            # if self.last_temp < self.target_temp:
-            #   self.turnResistorOn()
-            # else
-            #   self.turnResistorOff()
-            self.database.addValue( time.time(), self.last_temp )
+            self.database.addValue( time.time(), self.last_temp, self.last_humidity, self.resistor )
 
             print("current temperature: "+str(self.last_temp))
             time.sleep(self.dt)
     
     # access sensor to get the temperature
     def getSensorTemp(self):
-        pass 
-    """
-        #Set DATA pin
-        DHT = 12
-        #Read Temp and Hum from DHT22
-        h,t = dht.read_retry(dht.DHT22, DHT)
-        self.last_temp = t
-        self.last_himidity = h"""
+        if using_raspberry:
+            #Set DATA pin
+            DHT = 12
+            #Read Temp and Hum from DHT22
+            h,t = dht.read_retry(dht.DHT22, DHT)
+            self.last_temp = t
+            self.last_humidity = h
+        else:
+            pass
 
     # current time
     def getTime(self):
@@ -71,9 +78,13 @@ class Raspberry():
 
     # resistor
     def turnResistorOn(self):
+        if using_raspberry:
+            GPIO.output(RELAIS_1_GPIO, GPIO.HIGH)
         self.resistor = True
 
     def turnResistorOff(self):
+        if using_raspberry:
+            GPIO.output(RELAIS_1_GPIO, GPIO.LOW)
         self.resistor = False
 
     def getResistorState(self):
