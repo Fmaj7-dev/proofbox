@@ -59,4 +59,4 @@ def run(raspberry, database):
   r = raspberry
   d = database
 
-  app.run()
+  app.run('0.0.0.0')
