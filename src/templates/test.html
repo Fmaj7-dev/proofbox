@@ -1,11 +1,15 @@
 <h1>Proofing Box</h1>
-Current Temperature: {current_temperature}
-Target Temperature: {target_temperature}
-<form method=get action="/update">
-  <input name="target_temperature" type=number value="25" />
+Current Temperature: {{current_temperature}}<br>
+Target Temperature: {{target_temperature}}<br>
+Resistor State: {{resistor_state}}<br>
+Average Temperature 1 min {{avg_1}}<br>
+Average Temperature 10 min {{avg_10}}<br>
+Average Temperature 30 min {{avg_30}}<br>
+<form method=get action="/settarget">
+  <input name="target_temperature" type=number value="{{target_temperature}}" />
   <input type=submit value="Set Target Temperature">
 </form>
 
-  <img src="/image.png"
+  <img src="/plot.png"
     alt="random points as png"
     height="400" >

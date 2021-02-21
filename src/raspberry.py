@@ -4,6 +4,7 @@
 
 import time
 from database import Database
+import numpy as np
 
 class Raspberry():
     # dt: seconds between sensor measures
@@ -66,3 +67,13 @@ class Raspberry():
 
     def turnResistorOff(self):
         self.resistor = False
+
+    def getResistorState(self):
+        return self.resistor
+
+    def getAverageXMinutes(self, minutes):
+        dts_per_minute = int(60/self.dt)
+        total_dts = dts_per_minute * minutes
+        total_dts = min(self.database.getSize(), total_dts)
+        print(total_dts)
+        return np.mean(self.database.getValuesY()[-total_dts:])

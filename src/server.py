@@ -23,18 +23,25 @@ target_temp = 25
 def index():
   #return str(d.getvalues())
 
-  return render_template('test.html', current_temperature=25, target_temperature=42)
+  return render_template('test.html', 
+                         current_temperature="{:.2f}".format(d.getValuesY()[-1]), 
+                         target_temperature=target_temp,
+                         resistor_state=r.getResistorState(),
+                         avg_1="{:.2f}".format(r.getAverageXMinutes(1)),
+                         avg_10="{:.2f}".format(r.getAverageXMinutes(10)),
+                         avg_30="{:.2f}".format(r.getAverageXMinutes(30)))
 
-@app.route('/update')
-def update():
+@app.route('/settarget')
+def setTarget():
   target_temperature = int(request.args.get("target_temperature", -1))
   if (target_temperature != -1):
-    target_tmp = target_temperature
-
-    print("update!")
+    global target_temp
+    target_temp = target_temperature
+    r.setTartgetTemp(target_temp)
+    print("settarget "+str(target_temp))
   return index()
 
-@app.route("/image.png")
+@app.route("/plot.png")
 def plot_png():
     fig = Figure()
     axis = fig.add_subplot(1, 1, 1)
