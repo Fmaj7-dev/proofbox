@@ -5,7 +5,7 @@
 import time
 
 # it can be executed on raspberry or pc (only for testing)
-using_raspberry = False
+using_raspberry = True
 
 if using_raspberry:
     import Adafruit_DHT as dht
@@ -27,8 +27,8 @@ class Raspberry():
 
         if using_raspberry:
             GPIO.setmode(GPIO.BCM)
-            RELAIS_1_GPIO = 17
-            GPIO.setup(RELAIS_1_GPIO, GPIO.OUT)
+            self.RELAIS_1_GPIO = 17
+            GPIO.setup(self.RELAIS_1_GPIO, GPIO.OUT)
         
 
     # target_temp: the temperature we are trying to reach
@@ -79,12 +79,12 @@ class Raspberry():
     # resistor
     def turnResistorOn(self):
         if using_raspberry:
-            GPIO.output(RELAIS_1_GPIO, GPIO.HIGH)
+            GPIO.output(self.RELAIS_1_GPIO, GPIO.HIGH)
         self.resistor = True
 
     def turnResistorOff(self):
         if using_raspberry:
-            GPIO.output(RELAIS_1_GPIO, GPIO.LOW)
+            GPIO.output(self.RELAIS_1_GPIO, GPIO.LOW)
         self.resistor = False
 
     def getResistorState(self):

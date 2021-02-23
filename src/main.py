@@ -4,7 +4,7 @@ from raspberry import Raspberry
 from database import Database
 import server
 
-d = Database(10)
+d = Database()
 r = Raspberry( d )
 
 def startRaspberry():
