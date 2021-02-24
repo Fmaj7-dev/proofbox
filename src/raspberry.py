@@ -55,7 +55,7 @@ class Raspberry():
                 else:
                     self.turnResistorOff()
 
-            self.database.addValue( time.time(), self.last_temp, self.last_humidity, self.resistor )
+            self.database.addValue( time.time(), self.last_temp, self.last_humidity, self.resistor * 30, self.target_temp )
 
             print("current temperature: "+str(self.last_temp))
             time.sleep(self.dt)
