@@ -5,7 +5,7 @@
 import time
 
 # it can be executed on raspberry or pc (only for testing)
-using_raspberry = True
+using_raspberry = False
 
 if using_raspberry:
     import Adafruit_DHT as dht
@@ -24,6 +24,7 @@ class Raspberry():
         self.last_temp = 1
         self.last_humidity = 1
         self.resistor = False
+        self.threshold = 0.1
 
         if using_raspberry:
             GPIO.setmode(GPIO.BCM)
@@ -40,9 +41,9 @@ class Raspberry():
         while True:
             if using_raspberry:
                 self.getSensorTemp()
-                if self.last_temp < self.target_temp:
+                if self.last_temp < (self.target_temp - self.threshold):
                     self.turnResistorOn()
-                else:
+                elif self.last_temp > (self.target_temp + self.threshold):
                     self.turnResistorOff()
             else:
                 if self.resistor:
@@ -55,7 +56,8 @@ class Raspberry():
                 else:
                     self.turnResistorOff()
 
-            self.database.addValue( time.time(), self.last_temp, self.last_humidity, self.resistor * 30, self.target_temp )
+            min_resistor_temp = self.target_temp-3
+            self.database.addValue( time.time(), self.last_temp, self.last_humidity, min_resistor_temp + self.resistor * 6, self.target_temp )
 
             print("current temperature: "+str(self.last_temp))
             time.sleep(self.dt)

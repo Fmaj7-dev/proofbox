@@ -47,7 +47,8 @@ def plot_png():
     axis = fig.add_subplot(1, 1, 1)
     x_points = range( d.getSize() )
     axis.plot(d.getValuesX(),d.getValuesY())
-    axis.plot(d.getValuesX(),d.getResistor())
+    axis.plot(d.getValuesX(),d.getResistor(), color='red')
+    axis.plot(d.getValuesX(),d.getTarget(), color='gray')
 
     output = io.BytesIO()
     FigureCanvasAgg(fig).print_png(output)

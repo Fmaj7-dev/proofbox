@@ -1,16 +1,62 @@
 <html>
-  <head></head>
-  <body>
+  <head>
+    <style>
+      .backgroundGradient {
+        background: linear-gradient(to bottom, white, Wheat);
+        color: SaddleBrown;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    img {
+      border-style: solid;
+      color: SaddleBrown;
+      }
+    #parameters {
+      font-family: Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      width: 550px;
+    }
+
+    #parameters td, #parameters th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+
+    #parameters tr:nth-child(even){background-color: Wheat;}
+
+    #parameters tr:hover {background-color: #eee;}
+    #parameters th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: saddlebrown;
+      color: white;
+    }
+
+    input[type=submit] {
+      background-color: saddlebrown;
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      text-decoration: none;
+      margin: 2px 1px;
+      cursor: pointer;
+    }
+
+    </style>
+  </head>
+  <body class="backgroundGradient">
     <h1>Proofing Box Control</h1>
 
-    <table style="width:30%">
-      <tr>  <td>Current Temperature</td>    <td>{{current_temperature}}</td>  </tr>
-      <tr>  <td>Target Temperature</td>     <td>{{target_temperature}}</td>   </tr>
-      <tr>  <td>Resistor State</td>         <td>{{resistor_state}}</td>       </tr>
-      <tr>  <td>Average Temperature 1 min</td>         <td>{{avg_1}}</td>       </tr>
-      <tr>  <td>Average Temperature 10 min</td>         <td>{{avg_10}}</td>       </tr>
-      <tr>  <td>Average Temperature 30 min</td>         <td>{{avg_30}}</td>       </tr>
+    <table id="parameters" >
+      <tr>  <th>Parameter</th>        <th>Value</th>  </tr>
+      <tr>  <td>Current Temperature</td>        <td>{{current_temperature}}</td>  </tr>
+      <tr>  <td>Target Temperature</td>         <td>{{target_temperature}}</td>   </tr>
+      <tr>  <td>Resistor State</td>             <td>{{resistor_state}}</td>       </tr>
+      <tr>  <td>Average Temperature 1 min</td>  <td>{{avg_1}}</td>                </tr>
+      <tr>  <td>Average Temperature 10 min</td> <td>{{avg_10}}</td>               </tr>
+      <tr>  <td>Average Temperature 30 min</td> <td>{{avg_30}}</td>               </tr>
     </table>
+    <br>
   
     <form method=get action="/settarget">
       <input name="target_temperature" type=number value="{{target_temperature}}" />
